@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+    <h1>Fresh Groceries Delivered Fast 🥕</h1>
+    <p>Daily essentials at the best price</p>
+    <a href="{% url 'products' %}" class="btn">Shop Now</a>
+</section>
+
+<!-- ===== CATEGORIES ===== -->
+<section class="categories">
+    <h2>Shop by Category</h2>
+
+    <div class="category-grid">
+        <a href="/category/vegetables/" class="card">🥬 Vegetables</a>
+        <a href="/category/fruits/" class="card">🍎 Fruits</a>
+        <a href="/category/dairy-products/" class="card">🥛 Dairy</a>
+        <a href="/category/snacks/" class="card">🍪 Snacks</a>
+        <a href="/category/cold-drinks/" class="card">🥤 Cold Drinks</a>
+        <a href="/category/personal-care/" class="card">🧴 Personal Care</a>
+        <a href="/category/spices/" class="card">🌶️ Spices</a>
+
+    </div>
+</section>
+
+<!-- ===== FEATURED PRODUCTS ===== -->
+<section class="products">
+    <h2>Popular Products</h2>
+
+    <div class="product-grid">
+        {% for product in products %}
+        <div class="product-card">
+
+    <!-- Image clickable -->
+    <a href="{% url 'product_detail' product.id %}">
+        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+    </a>
+
+    <!-- Name clickable -->
+    <h3>
+        <a href="{% url 'product_detail' product.id %}">
+            {{ product.name }}
+        </a>
+    </h3>
+
+    <p>₹{{ product.price }}</p>
+
+    {% if product.stock > 0 %}
+        <a href="{% url 'add_cart' product.id %}" class="btn">
+    Add to Cart
+</a>
+
+    {% else %}
+        <span class="out-stock">Out of Stock</span>
+    {% endif %}
+
+    </div>
+
+        {% empty %}
+            <p>No products available.</p>
+        {% endfor %}
+    </div>
+
+    <div style="text-align:center; margin-top:20px;">
+        <a href="{% url 'products' %}" class="btn-outline">View All Products</a>
+    </div>
+</section>
+
+{% endblock %}

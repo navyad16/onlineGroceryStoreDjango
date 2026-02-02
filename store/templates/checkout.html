@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2 class="mb-4">🧾 Checkout</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <form method="POST" class="card p-4 shadow-sm">
+            {% csrf_token %}
+
+            <h5>Delivery Details</h5>
+
+            <input type="text" class="form-control mb-3"
+                   placeholder="Full Name" required>
+
+            <input type="text" class="form-control mb-3"
+                   placeholder="Phone Number" required>
+
+            <textarea class="form-control mb-3"
+                      placeholder="Delivery Address"
+                      rows="3" required></textarea>
+
+            <h5 class="mt-3">Payment Method</h5>
+            <select name="payment_method" class="form-select mb-3">
+                <option value="COD">Cash on Delivery</option>
+                <option value="ONLINE">Online Payment</option>
+            </select>
+
+            <button type="submit" class="btn btn-success w-100">
+                Place Order
+            </button>
+        </form>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card p-4 shadow-sm">
+            <h5>Order Summary</h5>
+            <ul class="list-group list-group-flush">
+                {% for item in items %}
+                <li class="list-group-item d-flex justify-content-between">
+                    {{ item.product.name }} × {{ item.qty }}
+                    <span>₹{{ item.subtotal }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+            <h4 class="text-end mt-3">Total: ₹{{ total }}</h4>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

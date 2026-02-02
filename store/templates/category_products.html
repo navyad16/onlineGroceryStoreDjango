@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2 class="page-title">{{ category.name }}</h2>
+
+<div class="product-grid">
+    {% for product in products %}
+        <div class="product-card">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            <h3>{{ product.name }}</h3>
+            <p class="price">₹{{ product.price }}</p>
+            <p class="desc">{{ product.description|truncatechars:60 }}</p>
+            <a href="{% url 'add_cart' product.id %}" class="btn">
+                Add to Cart
+            </a>
+
+        </div>
+    {% empty %}
+        <p>No products available in this category.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}
